@@ -5,8 +5,9 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController{
+class HomeController extends AbstractController{
 
     #[Route('/')]
     public function homepage(): Response{
@@ -15,12 +16,17 @@ class HomeController{
 
     #[Route('/facilities/{slug}')]
     public function showFacility(string $slug = null): Response{
-        if( $slug )
-            $res = "Facility: " . u($slug);
-        else    
-            $res = "All facilities";
 
-        return new Response($res);
+        $facilities = [
+            'LSM 800',
+            'LSM 880',
+            'NMR 300',
+        ];
+
+        return $this->render('homepage/facilities.html.twig',[
+            'title' => "Facilities",
+            'facilities' => $facilities
+        ]);
     }
 
 }
